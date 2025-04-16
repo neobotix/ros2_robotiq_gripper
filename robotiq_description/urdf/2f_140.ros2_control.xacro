@@ -8,7 +8,7 @@
         sim_isaac:=false
         isaac_joint_commands:=/isaac_joint_commands
         isaac_joint_states:=/isaac_joint_states
-        use_fake_hardware:=false
+        use_mock_hardware:=false
         mock_sensor_commands:=false
         com_port:=/dev/ttyUSB0">
 
@@ -21,14 +21,14 @@
                     <param name="joint_states_topic">${isaac_joint_states}</param>
                 </xacro:if>
                 <xacro:if value="${sim_gazebo}">
-                    <plugin>ign_ros2_control/IgnitionSystem</plugin>
+                    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
                 </xacro:if>
-                <xacro:if value="${use_fake_hardware}">
+                <xacro:if value="${use_mock_hardware}">
                     <plugin>mock_components/GenericSystem</plugin>
                     <param name="mock_sensor_commands">${mock_sensor_commands}</param>
                     <param name="state_following_offset">0.0</param>
                 </xacro:if>
-                <xacro:unless value="${use_fake_hardware or sim_gazebo or sim_isaac}">
+                <xacro:unless value="${use_mock_hardware or sim_gazebo or sim_isaac}">
                     <plugin>robotiq_driver/RobotiqGripperHardwareInterface</plugin>
                     <param name="gripper_closed_position">0.695</param>
                     <param name="COM_port">${com_port}</param>
@@ -47,7 +47,7 @@
                 <state_interface name="velocity"/>
             </joint>
             <!-- When simulating we need to include the rest of the gripper joints -->
-            <xacro:if value="${use_fake_hardware or sim_isaac or sim_gazebo}">
+            <xacro:if value="${use_mock_hardware or sim_isaac or sim_gazebo}">
                 <joint name="${prefix}left_inner_knuckle_joint">
                     <xacro:unless value="${sim_gazebo}">
                         <state_interface name="position"/>
@@ -80,7 +80,7 @@
                 </joint>
             </xacro:if>
 
-            <!-- Only add this with fake hardware mode -->
+            <!-- Only add this with mock hardware mode -->
             <xacro:unless value="${sim_gazebo or sim_isaac}">
                 <gpio name="reactivate_gripper">
                     <command_interface name="reactivate_gripper_cmd" />

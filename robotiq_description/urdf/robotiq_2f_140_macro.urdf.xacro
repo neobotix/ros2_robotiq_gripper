@@ -9,7 +9,7 @@
         sim_isaac:=false
         isaac_joint_commands:=/isaac_joint_commands
         isaac_joint_states:=/isaac_joint_states
-        use_fake_hardware:=false
+        use_mock_hardware:=false
         mock_sensor_commands:=false
         include_ros2_control:=true
         com_port:=/dev/ttyUSB0">
@@ -24,7 +24,7 @@
                 sim_isaac="${sim_isaac}"
                 isaac_joint_commands="${isaac_joint_commands}"
                 isaac_joint_states="${isaac_joint_states}"
-                use_fake_hardware="${use_fake_hardware}"
+                use_mock_hardware="${use_mock_hardware}"
                 mock_sensor_commands="${mock_sensor_commands}"
                 com_port="${com_port}"/>
         </xacro:if>
