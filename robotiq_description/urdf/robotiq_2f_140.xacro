@@ -160,8 +160,10 @@
     <xacro:finger_joints prefix="${prefix}" fingerprefix="left" reflect="1.0"/>
   </xacro:macro>
 
-  <xacro:macro name="right_outer_knuckle_joint" params="prefix">
-    <joint name="${prefix}right_outer_knuckle_joint" type="revolute">
+  <xacro:macro name="right_outer_knuckle_joint" params="prefix sim_gazebo:=false">
+    <!-- Gazebo velocity-driven mimics can stick at a redundant joint stop.
+         In simulation, the bounded master joint supplies the motion limits. -->
+    <joint name="${prefix}right_outer_knuckle_joint" type="${'continuous' if sim_gazebo else 'revolute'}">
       <origin xyz="0 0.030601 0.054905" rpy="${pi / 2 + .725} 0 ${pi}" />
       <parent link="${prefix}robotiq_140_base_link" />
       <child link="${prefix}right_outer_knuckle" />
