@@ -83,7 +83,7 @@ def generate_launch_description():
             " ",
             LaunchConfiguration("model"),
             " ",
-            "use_fake_hardware:=false",
+            "use_mock_hardware:=false",
             " ",
             "com_port:=",
             LaunchConfiguration("com_port"),

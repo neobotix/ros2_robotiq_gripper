@@ -8,7 +8,7 @@
         sim_isaac:=false
         isaac_joint_commands:=/isaac_joint_commands
         isaac_joint_states:=/isaac_joint_states
-        use_fake_hardware:=false
+        use_mock_hardware:=false
         mock_sensor_commands:=false
         com_port:=/dev/ttyUSB0
         gripper_speed_multiplier:=1.0
@@ -33,12 +33,12 @@
                 <xacro:if value="${sim_gazebo}">
                     <plugin>gz_ros2_control/GazeboSimSystem</plugin>
                 </xacro:if>
-                <xacro:if value="${use_fake_hardware}">
+                <xacro:if value="${use_mock_hardware}">
                     <plugin>mock_components/GenericSystem</plugin>
                     <param name="mock_sensor_commands">${mock_sensor_commands}</param>
                     <param name="state_following_offset">0.0</param>
                 </xacro:if>
-                <xacro:unless value="${use_fake_hardware or sim_gazebo or sim_isaac}">
+                <xacro:unless value="${use_mock_hardware or sim_gazebo or sim_isaac}">
                     <plugin>robotiq_driver/RobotiqGripperHardwareInterface</plugin>
                     <param name="gripper_closed_position">${gripper_closed_position}</param>
                     <param name="COM_port">${com_port}</param>
@@ -59,7 +59,7 @@
                 <state_interface name="velocity"/>
             </joint>
             <!-- When simulating we need to include the rest of the gripper joints -->
-            <xacro:if value="${use_fake_hardware or sim_isaac or sim_gazebo}">
+            <xacro:if value="${use_mock_hardware or sim_isaac or sim_gazebo}">
                 <joint name="${prefix}robotiq_85_right_knuckle_joint">
                     <xacro:unless value="${sim_gazebo}">
                         <state_interface name="position"/>
